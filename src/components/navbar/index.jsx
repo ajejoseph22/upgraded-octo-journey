@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 const StyledNavBar = styled.nav`
   height: 60px;
@@ -8,14 +9,17 @@ const StyledNavBar = styled.nav`
   padding: 0 30px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 
+  & > a,
   & > div {
     text-align: center;
     cursor: pointer;
     height: 100%;
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: #031323;
 
-    &.selected {
+    &.selected:not(#navbar_logo) {
       border-bottom: 3px solid #ab61e5;
       height: 95%;
     }
@@ -39,11 +43,21 @@ const StyledNavBar = styled.nav`
 
 const NavBar = () => (
   <StyledNavBar>
-    <div id="navbar_logo">Honesto</div>
-    <div className="selected">Share feedback</div>
-    <div>My feedback</div>
-    <div>Team feedback</div>
-    <div>Teams</div>
+    <NavLink to="/" exact activeClassName="selected" id="navbar_logo">
+      Honesto
+    </NavLink>
+    <NavLink to="/share-feedback" activeClassName="selected">
+      Share feedback
+    </NavLink>
+    <NavLink to="/my-feedback" activeClassName="selected">
+      My feedback
+    </NavLink>
+    <NavLink to="/team-feedback" activeClassName="selected">
+      Team feedback
+    </NavLink>
+    <NavLink to="/teams" activeClassName="selected">
+      Teams
+    </NavLink>
     <div>Next Feedback cycle</div>
     <div id="navbar_profile-area">Profile Area</div>
   </StyledNavBar>
