@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 const StyledNavBar = styled.nav`
-  height: 60px;
+  height: 7.5vh;
   background: #f2f3f4;
   display: flex;
   justify-content: space-between;
