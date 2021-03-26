@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import MultipleChoice from "./question/multiple-choice";
 import { questionTypes } from "../../../util/constants";
 import Scale from "./question/scale";
+import Text from "./question/text";
 
 const FormWrapper = styled.div`
   padding: 25px;
@@ -93,6 +94,9 @@ const Form = ({ questions, user }) => {
       break;
     case questionTypes.scale:
       question = <Scale question={currentQuestion} />;
+      break;
+    case questionTypes.text:
+      question = <Text question={currentQuestion} />;
       break;
     default:
       question = null;
