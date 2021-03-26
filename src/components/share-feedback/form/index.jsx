@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useMemo } from "react";
 import MultipleChoice from "./question/multiple-choice";
 import { questionTypes } from "../../../util/constants";
+import Scale from "./question/scale";
 
 const FormWrapper = styled.div`
   padding: 25px;
@@ -89,6 +90,9 @@ const Form = ({ questions, user }) => {
   switch (currentQuestion.type) {
     case questionTypes.multipleChoice:
       question = <MultipleChoice question={currentQuestion} />;
+      break;
+    case questionTypes.scale:
+      question = <Scale question={currentQuestion} />;
       break;
     default:
       question = null;
