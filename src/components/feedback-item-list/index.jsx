@@ -1,10 +1,16 @@
 import styled from "styled-components";
+import classNames from "classnames";
 
 const StyledFeedBackItemList = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
+
+  &.clickable:hover {
+    background: #fbf7fe;
+    cursor: pointer;
+  }
 
   .profile-image {
     border-radius: 50%;
@@ -22,9 +28,23 @@ const StyledFeedBackItemList = styled.div`
   }
 `;
 
-const FeedBackItemList = ({ users, handleClickFill }) =>
-  users.map((user) => (
-    <StyledFeedBackItemList key={user.id} className="feedback-item">
+const FeedBackItemList = ({
+  users,
+  handleClickFill,
+  handleClick,
+  showFillButton = true,
+}) => {
+  const classes = classNames({
+    "feedback-item": true,
+    clickable: !showFillButton,
+  });
+
+  return users.map((user) => (
+    <StyledFeedBackItemList
+      onClick={showFillButton ? () => {} : () => handleClick(user)}
+      key={user.id}
+      className={classes}
+    >
       <div className="user-profile-area">
         <img
           width={58}
@@ -37,8 +57,11 @@ const FeedBackItemList = ({ users, handleClickFill }) =>
           {user.firstName} {user.lastName}
         </span>
       </div>
-      <button onClick={() => handleClickFill(user)}>Fill</button>
+      {showFillButton && (
+        <button onClick={() => handleClickFill(user)}>Fill</button>
+      )}
     </StyledFeedBackItemList>
   ));
+};
 
 export default FeedBackItemList;
