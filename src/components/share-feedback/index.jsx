@@ -35,7 +35,7 @@ const ShareFeedBackPage = () => {
   const [selectedUser, setSelectedUser] = useState();
   const [isFinished, setIsFinished] = useState(false);
 
-  const { users, setUsers, questions, setQuestions } = useContext(AppContext);
+  const { users, setUsers, questions, setQuestions, feedback } = useContext(AppContext);
 
   const resetLoadingAndErrorState = () => {
     setError(null);
@@ -99,6 +99,12 @@ const ShareFeedBackPage = () => {
       />
     );
 
+  const usersFilledFor = Object.keys(feedback);
+
+  const usersNotFilledFor = users.filter(
+      (user) => !usersFilledFor.includes(user.id)
+  );
+
   return (
     <ShareFeedBackContext.Provider
       value={{
@@ -113,7 +119,7 @@ const ShareFeedBackPage = () => {
         ) : selectedUser ? (
           <Form user={selectedUser} />
         ) : (
-          <HomePage users={users} handleClickFill={handleClickFill} />
+          <HomePage users={usersNotFilledFor} handleClickFill={handleClickFill} />
         )}
       </ShareFeedBackPageWrapper>
     </ShareFeedBackContext.Provider>
