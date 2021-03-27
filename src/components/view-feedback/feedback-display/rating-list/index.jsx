@@ -24,7 +24,7 @@ const RatingList = ({ user }) => {
   return (
     <StyledRatingList>
       {questions.map((question, questionIndex) => (
-        <div className="question-rating-item">
+        <div key={question.id} className="question-rating-item">
           <div className="question">{question.label}</div>
           <Rating
             answer={feedback[user.id][questionIndex]}
