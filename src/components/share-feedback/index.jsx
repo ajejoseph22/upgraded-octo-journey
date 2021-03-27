@@ -1,5 +1,11 @@
 import styled from "styled-components";
-import { useEffect, useState, useCallback, createContext } from "react";
+import {
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+  createContext,
+} from "react";
 import { getUsers } from "../../services/users";
 import Spinner from "../spinner";
 import ErrorPage from "../error-page";
@@ -8,6 +14,7 @@ import { getQuestions } from "../../services/questions";
 import HomePage from "./homepage";
 import { errorObj } from "../../util/constants";
 import FeedBackCompleted from "./feedback-completed";
+import { AppContext } from "../../App";
 
 const ShareFeedBackPageWrapper = styled.div`
   width: 600px;
@@ -23,12 +30,12 @@ const ShareFeedBackPageWrapper = styled.div`
 export const ShareFeedBackContext = createContext(null);
 
 const ShareFeedBackPage = () => {
-  const [users, setUsers] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState();
   const [selectedUser, setSelectedUser] = useState();
-  const [questions, setQuestions] = useState();
   const [isFinished, setIsFinished] = useState(false);
+
+  const { users, setUsers, questions, setQuestions } = useContext(AppContext);
 
   const resetLoadingAndErrorState = () => {
     setError(null);
@@ -95,17 +102,16 @@ const ShareFeedBackPage = () => {
   return (
     <ShareFeedBackContext.Provider
       value={{
-        users,
         handleClickFill,
         setIsFinished,
-        setSelectedUser
+        setSelectedUser,
       }}
     >
       <ShareFeedBackPageWrapper>
         {isFinished ? (
           <FeedBackCompleted />
         ) : selectedUser ? (
-          <Form questions={questions} user={selectedUser} />
+          <Form user={selectedUser} />
         ) : (
           <HomePage users={users} handleClickFill={handleClickFill} />
         )}

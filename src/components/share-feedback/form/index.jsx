@@ -7,6 +7,7 @@ import Text from "./question/text";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { removeUndefinedValues } from "../../../util/methods";
 import { ShareFeedBackContext } from "../index";
+import { AppContext } from "../../../App";
 
 const FormWrapper = styled.div`
   padding: 25px;
@@ -77,12 +78,13 @@ const FormWrapper = styled.div`
   }
 `;
 
-const Form = ({ questions, user }) => {
+const Form = ({ user }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [answers, setAnswers] = useState({});
 
   const { setSelectedUser, setIsFinished } = useContext(ShareFeedBackContext);
+  const { questions } = useContext(AppContext);
 
   const questionsLength = useMemo(() => questions.length, [questions]);
 

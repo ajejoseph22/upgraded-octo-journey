@@ -3,6 +3,7 @@ import { ShareFeedBackContext } from "../index";
 import { useContext } from "react";
 import styled from "styled-components";
 import { feedbackKey } from "../../../util/constants";
+import { AppContext } from "../../../App";
 
 const StyledFeedbackCompletedPage = styled.div`
   padding: 25px;
@@ -41,7 +42,8 @@ const StyledFeedbackCompletedPage = styled.div`
 `;
 
 const FeedBackCompleted = () => {
-  const { users, handleClickFill } = useContext(ShareFeedBackContext);
+  const { handleClickFill } = useContext(ShareFeedBackContext);
+  const { users } = useContext(AppContext);
 
   const storedFeedback = localStorage.getItem(feedbackKey);
 
