@@ -110,7 +110,6 @@ const Form = ({ questions, user }) => {
   };
 
   const handleNext = () => {
-    debugger;
     if (currentQuestionIndex === questionsLength - 1) {
       addUserFilledFor(user.id);
       setIsFinished(true);
