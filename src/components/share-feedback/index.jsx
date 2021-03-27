@@ -98,6 +98,7 @@ const ShareFeedBackPage = () => {
         users,
         handleClickFill,
         setIsFinished,
+        setSelectedUser
       }}
     >
       <ShareFeedBackPageWrapper>

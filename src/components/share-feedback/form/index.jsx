@@ -17,6 +17,12 @@ const FormWrapper = styled.div`
     padding: 10px;
   }
 
+  #back-btn {
+    cursor: pointer;
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+
   #top-area {
     display: flex;
     align-items: center;
@@ -76,7 +82,7 @@ const Form = ({ questions, user }) => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [answers, setAnswers] = useState({});
 
-  const { setIsFinished } = useContext(ShareFeedBackContext);
+  const { setSelectedUser, setIsFinished } = useContext(ShareFeedBackContext);
 
   const questionsLength = useMemo(() => questions.length, [questions]);
 
@@ -174,6 +180,14 @@ const Form = ({ questions, user }) => {
     <FormWrapper>
       <div id="top-area">
         <div id="top-area_left">
+          <span
+            onClick={() => {
+              setSelectedUser(null);
+            }}
+            id="back-btn"
+          >
+            &#60; back
+          </span>
           <span id="question">{currentQuestion.label}</span>
           <span id="helper-text">
             Share your feedback about {user.firstName} {user.lastName}
