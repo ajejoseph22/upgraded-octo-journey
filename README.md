@@ -19,3 +19,5 @@
 * I would finish up the leftover pages/features (404, signin/signup etc.)
 * Do a lot of code cleanups/optimizations (**Some questions**: can any improvements be made to the way the components are structured? can any optimizations be made to prevent unnecessary rendering? Are the components/classes/ids named for optimal clarity? Are the components using semantic enough elements?) ! 
 * Write tests
+
+## The app has been deployed on Vercel and is accessible [here](https://upgraded-octo-journey.vercel.app/) :)
