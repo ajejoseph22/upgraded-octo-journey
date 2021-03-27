@@ -2,6 +2,7 @@ import FeedBackItemList from "../../feedback-item-list";
 import { ShareFeedBackContext } from "../index";
 import { useContext } from "react";
 import styled from "styled-components";
+import { feedbackKey } from "../../../util/constants";
 
 const StyledFeedbackCompletedPage = styled.div`
   padding: 25px;
@@ -40,9 +41,20 @@ const StyledFeedbackCompletedPage = styled.div`
 `;
 
 const FeedBackCompleted = () => {
-  const { usersFilledFor, users, handleClickFill } = useContext(
-    ShareFeedBackContext
+  const { users, handleClickFill } = useContext(ShareFeedBackContext);
+
+  const storedFeedback = localStorage.getItem(feedbackKey);
+
+  const usersFilledFor = storedFeedback
+    ? Object.keys(JSON.parse(storedFeedback))
+    : [];
+
+  const usersNotFilledFor = users.filter(
+    (user) => !usersFilledFor.includes(user.id)
   );
+
+  console.log("usersFilledFor", usersFilledFor);
+  console.log("usersNotFilledFor", usersNotFilledFor);
 
   return (
     <StyledFeedbackCompletedPage>
@@ -56,7 +68,7 @@ const FeedBackCompleted = () => {
       </div>
       <div id="feedback-complete_page_content">
         <FeedBackItemList
-          users={users.filter((user) => !usersFilledFor[user.id])}
+          users={usersNotFilledFor}
           handleClickFill={handleClickFill}
         />
       </div>

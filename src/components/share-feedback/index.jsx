@@ -29,14 +29,6 @@ const ShareFeedBackPage = () => {
   const [selectedUser, setSelectedUser] = useState();
   const [questions, setQuestions] = useState();
   const [isFinished, setIsFinished] = useState(false);
-  const [usersFilledFor, setUsersFilledFor] = useState({});
-
-  const addUserFilledFor = (id) => {
-    setUsersFilledFor((prevState) => ({
-      ...prevState,
-      [id]: true,
-    }));
-  };
 
   const resetLoadingAndErrorState = () => {
     setError(null);
@@ -103,8 +95,6 @@ const ShareFeedBackPage = () => {
   return (
     <ShareFeedBackContext.Provider
       value={{
-        usersFilledFor,
-        addUserFilledFor,
         users,
         handleClickFill,
         setIsFinished,

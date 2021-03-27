@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useMemo, useContext } from "react";
 import MultipleChoice from "./question/multiple-choice";
-import { questionTypes } from "../../../util/constants";
+import { feedbackKey, questionTypes } from "../../../util/constants";
 import Scale from "./question/scale";
 import Text from "./question/text";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -76,7 +76,7 @@ const Form = ({ questions, user }) => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [answers, setAnswers] = useState({});
 
-  const { addUserFilledFor, setIsFinished } = useContext(ShareFeedBackContext);
+  const { setIsFinished } = useContext(ShareFeedBackContext);
 
   const questionsLength = useMemo(() => questions.length, [questions]);
 
@@ -84,6 +84,21 @@ const Form = ({ questions, user }) => {
 
   const handleSetAnswer = (value) => {
     setSelectedAnswers({ ...selectedAnswers, [currentQuestionIndex]: value });
+  };
+
+  const finishAndSubmit = () => {
+    setIsFinished(true);
+
+    const storedFeedback = localStorage.getItem(feedbackKey);
+
+    if (storedFeedback) {
+      localStorage.setItem(
+        feedbackKey,
+        JSON.stringify({ ...JSON.parse(storedFeedback), [user.id]: answers })
+      );
+    } else {
+      localStorage.setItem(feedbackKey, JSON.stringify({ [user.id]: answers }));
+    }
   };
 
   const handlePrevious = () => {
@@ -98,10 +113,7 @@ const Form = ({ questions, user }) => {
   };
 
   const handleSkip = () => {
-    if (currentQuestionIndex === questionsLength - 1) {
-      addUserFilledFor(user.id);
-      setIsFinished(true);
-    }
+    if (currentQuestionIndex === questionsLength - 1) finishAndSubmit();
 
     setAnswers({ ...selectedAnswers, [currentQuestionIndex]: null });
     setSelectedAnswers({ ...selectedAnswers, [currentQuestionIndex]: null });
@@ -110,10 +122,7 @@ const Form = ({ questions, user }) => {
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex === questionsLength - 1) {
-      addUserFilledFor(user.id);
-      setIsFinished(true);
-    }
+    if (currentQuestionIndex === questionsLength - 1) finishAndSubmit();
 
     setAnswers(
       removeUndefinedValues({
