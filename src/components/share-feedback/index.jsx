@@ -53,7 +53,7 @@ const ShareFeedBackPage = () => {
     } finally {
       setisLoading(false);
     }
-  }, []);
+  }, [setUsers]);
 
   const fetchQuestionsAndSetState = async () => {
     try {
