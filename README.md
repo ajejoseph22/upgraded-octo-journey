@@ -13,10 +13,11 @@
 # Things I was NOT able to implement
 * The signin/signup page
 * Some of the UI features e.g. the user profile area at the extreme right of the NavBar
+* Mechanism to handle some edge cases. e.g when the user has filled for all available users -  a message should be displayed to let him/her know this in an elegant manner
 * Some non-core pages e.g the 404 not found page, the loading page as presented in the design (I created my own loading page)
 
 # If I had a week to work on it...
-* I would finish up the leftover pages/features (404, signin/signup etc.)
+* I would finish up the leftover pages/features (404 page, signin/signup pages, edge case mechanisms etc.)
 * Do a lot of code cleanups/optimizations (**Some questions**: can any improvements be made to the way the components are structured? can any optimizations be made to prevent unnecessary rendering? Are the components/classes/ids named for optimal clarity? Are the components using semantic enough elements?) ! 
 * Write tests
 
