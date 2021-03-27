@@ -56,7 +56,7 @@ const FeedBackCompleted = () => {
         <div id="top-area_left">
           <span id="message">Thank you for sharing your feedback !</span>
           <span id="helper-text">
-            "Continue to give feedback to other team members"
+            Continue to give feedback to other team members
           </span>
         </div>
       </div>

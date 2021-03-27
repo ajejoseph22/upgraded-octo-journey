@@ -31,8 +31,9 @@ const Rating = ({ questionType, answer }) => {
       case questionTypes.scale:
         rating = Array(answer)
           .fill(null)
-          .map((_) => (
+          .map((_, index) => (
             <div
+              key={index}
               style={{
                 background:
                   answer > 7 ? "#2BBF6A" : answer > 3 ? "#FF8C21" : "#DE521D",
@@ -46,8 +47,9 @@ const Rating = ({ questionType, answer }) => {
       case questionTypes.multipleChoice:
         rating = Array(answer)
           .fill(null)
-          .map((_) => (
+          .map((_, index) => (
             <div
+              key={index}
               style={{
                 background:
                   answer > 2 ? "#2BBF6A" : answer > 1 ? "#FF8C21" : "#DE521D",
