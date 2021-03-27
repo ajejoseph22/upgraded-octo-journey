@@ -50,9 +50,6 @@ const FeedBackCompleted = () => {
     (user) => !usersFilledFor.includes(user.id)
   );
 
-  console.log("usersFilledFor", usersFilledFor);
-  console.log("usersNotFilledFor", usersNotFilledFor);
-
   return (
     <StyledFeedbackCompletedPage>
       <div id="top-area">
