@@ -19,7 +19,7 @@ const StyledFeedbackCompletedPage = styled.div`
       flex-direction: column;
     }
 
-    #question {
+    #message {
       font-size: 28px;
       font-weight: 500;
       margin: 3px 0;
@@ -60,7 +60,7 @@ const FeedBackCompleted = () => {
     <StyledFeedbackCompletedPage>
       <div id="top-area">
         <div id="top-area_left">
-          <span id="question">Thank you for sharing your feedback !</span>
+          <span id="message">Thank you for sharing your feedback !</span>
           <span id="helper-text">
             "Continue to give feedback to other team members"
           </span>
