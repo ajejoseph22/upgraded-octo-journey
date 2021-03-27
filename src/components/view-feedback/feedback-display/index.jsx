@@ -2,7 +2,6 @@ import styled from "styled-components";
 import FeedBackItemList from "../../feedback-item-list";
 import { useContext, useState } from "react";
 import { AppContext } from "../../../App";
-import { feedbackKey } from "../../../util/constants";
 import QuestionsArea from "./questions-area";
 
 const FeedBackDisplayWrapper = styled.div`
@@ -31,8 +30,7 @@ const FeedBackDisplayWrapper = styled.div`
 `;
 
 const FeedBackDisplay = () => {
-  const { users } = useContext(AppContext);
-  const storedFeedback = JSON.parse(localStorage.getItem(feedbackKey));
+  const { users, feedback } = useContext(AppContext);
   const [selectedUser, setSelectedUser] = useState();
 
   const handleClick = (user) => {
@@ -44,7 +42,7 @@ const FeedBackDisplay = () => {
       <div id="user-area">
         <header>Feedback received</header>
         <FeedBackItemList
-          users={users.filter((user) => storedFeedback[user.id])}
+          users={users.filter((user) => feedback[user.id])}
           showFillButton={false}
           handleClick={handleClick}
         />

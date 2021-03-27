@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { feedbackKey } from "../../util/constants";
 import NoFeedback from "./no-feedback";
 import FeedBackDisplay from "./feedback-display";
 import { useContext } from "react";
@@ -10,14 +9,11 @@ const ViewFeedBackPageWrapper = styled.div`
 `;
 
 const ViewFeedBackPage = () => {
-  const storedFeedback = localStorage.getItem(feedbackKey);
-  const { users } = useContext(AppContext);
+  const { users, feedback } = useContext(AppContext);
 
-  const isThereFeedBack =
-    storedFeedback &&
-    users.some((user) =>
-      Object.keys(JSON.parse(storedFeedback)).includes(user.id)
-    );
+  const isThereFeedBack = users.some((user) =>
+    Object.keys(feedback).includes(user.id)
+  );
 
   return (
     <ViewFeedBackPageWrapper>

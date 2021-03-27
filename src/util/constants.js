@@ -11,5 +11,3 @@ export const questionTypes = {
   multipleChoice: "multipleChoice",
   text: "text",
 };
-
-export const feedbackKey = "feedback";

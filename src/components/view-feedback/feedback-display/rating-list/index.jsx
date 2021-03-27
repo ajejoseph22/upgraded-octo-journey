@@ -1,7 +1,6 @@
 import { AppContext } from "../../../../App";
 import { useContext } from "react";
 import styled from "styled-components";
-import { feedbackKey } from "../../../../util/constants";
 import Rating from "../rating";
 
 const StyledRatingList = styled.div`
@@ -20,8 +19,7 @@ const StyledRatingList = styled.div`
 `;
 
 const RatingList = ({ user }) => {
-  const { questions } = useContext(AppContext);
-  const storedFeedback = JSON.parse(localStorage.getItem(feedbackKey));
+  const { questions, feedback } = useContext(AppContext);
 
   return (
     <StyledRatingList>
@@ -29,7 +27,7 @@ const RatingList = ({ user }) => {
         <div className="question-rating-item">
           <div className="question">{question.label}</div>
           <Rating
-            answer={storedFeedback[user.id][questionIndex]}
+            answer={feedback[user.id][questionIndex]}
             questionType={question.type}
           />
         </div>

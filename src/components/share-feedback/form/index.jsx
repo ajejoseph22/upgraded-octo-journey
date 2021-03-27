@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useMemo, useContext } from "react";
 import MultipleChoice from "./question/multiple-choice";
-import { feedbackKey, questionTypes } from "../../../util/constants";
+import { questionTypes } from "../../../util/constants";
 import Scale from "./question/scale";
 import Text from "./question/text";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -84,7 +84,7 @@ const Form = ({ user }) => {
   const [answers, setAnswers] = useState({});
 
   const { setSelectedUser, setIsFinished } = useContext(ShareFeedBackContext);
-  const { questions } = useContext(AppContext);
+  const { questions, setFeedback } = useContext(AppContext);
 
   const questionsLength = useMemo(() => questions.length, [questions]);
 
@@ -97,16 +97,7 @@ const Form = ({ user }) => {
   const finishAndSubmit = () => {
     setIsFinished(true);
 
-    const storedFeedback = localStorage.getItem(feedbackKey);
-
-    if (storedFeedback) {
-      localStorage.setItem(
-        feedbackKey,
-        JSON.stringify({ ...JSON.parse(storedFeedback), [user.id]: answers })
-      );
-    } else {
-      localStorage.setItem(feedbackKey, JSON.stringify({ [user.id]: answers }));
-    }
+    setFeedback({ [user.id]: answers });
   };
 
   const handlePrevious = () => {
