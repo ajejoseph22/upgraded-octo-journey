@@ -1,9 +1,12 @@
 import styled from "styled-components";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import MultipleChoice from "./question/multiple-choice";
 import { questionTypes } from "../../../util/constants";
 import Scale from "./question/scale";
 import Text from "./question/text";
+import ProgressBar from "@ramonak/react-progress-bar";
+import { removeUndefinedValues } from "../../../util/methods";
+import { ShareFeedBackContext } from "../index";
 
 const FormWrapper = styled.div`
   padding: 25px;
@@ -62,44 +65,101 @@ const FormWrapper = styled.div`
       }
     }
   }
+
+  #progress-area {
+    margin-top: 20px;
+  }
 `;
 
 const Form = ({ questions, user }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [isFinished, setIsFinished] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [answers, setAnswers] = useState({});
+
+  const { addUserFilledFor, setIsFinished } = useContext(ShareFeedBackContext);
 
   const questionsLength = useMemo(() => questions.length, [questions]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
+  const handleSetAnswer = (value) => {
+    setSelectedAnswers({ ...selectedAnswers, [currentQuestionIndex]: value });
+  };
+
   const handlePrevious = () => {
+    setAnswers(
+      removeUndefinedValues({
+        ...answers,
+        [currentQuestionIndex]: selectedAnswers[currentQuestionIndex],
+      })
+    );
+
     setCurrentQuestionIndex((prevState) => prevState - 1);
   };
 
-  const handleNext = () => {
+  const handleSkip = () => {
     if (currentQuestionIndex === questionsLength - 1) {
-      console.log("finished");
+      addUserFilledFor(user.id);
       setIsFinished(true);
-      return;
     }
+
+    setAnswers({ ...selectedAnswers, [currentQuestionIndex]: null });
+    setSelectedAnswers({ ...selectedAnswers, [currentQuestionIndex]: null });
+
+    setCurrentQuestionIndex((prevState) => prevState + 1);
+  };
+
+  const handleNext = () => {
+    debugger;
+    if (currentQuestionIndex === questionsLength - 1) {
+      addUserFilledFor(user.id);
+      setIsFinished(true);
+    }
+
+    setAnswers(
+      removeUndefinedValues({
+        ...answers,
+        [currentQuestionIndex]: selectedAnswers[currentQuestionIndex],
+      })
+    );
 
     setCurrentQuestionIndex((prevState) => prevState + 1);
   };
 
   let question;
 
-  switch (currentQuestion.type) {
-    case questionTypes.multipleChoice:
-      question = <MultipleChoice question={currentQuestion} />;
-      break;
-    case questionTypes.scale:
-      question = <Scale question={currentQuestion} />;
-      break;
-    case questionTypes.text:
-      question = <Text question={currentQuestion} />;
-      break;
-    default:
-      question = null;
+  if (currentQuestion) {
+    switch (currentQuestion.type) {
+      case questionTypes.multipleChoice:
+        question = (
+          <MultipleChoice
+            answer={selectedAnswers[currentQuestionIndex]}
+            handleSetAnswer={handleSetAnswer}
+            question={currentQuestion}
+          />
+        );
+        break;
+      case questionTypes.scale:
+        question = (
+          <Scale
+            answer={selectedAnswers[currentQuestionIndex]}
+            handleSetAnswer={handleSetAnswer}
+            question={currentQuestion}
+          />
+        );
+        break;
+      case questionTypes.text:
+        question = (
+          <Text
+            answer={selectedAnswers[currentQuestionIndex]}
+            handleSetAnswer={handleSetAnswer}
+            question={currentQuestion}
+          />
+        );
+        break;
+      default:
+        question = null;
+    }
   }
 
   return (
@@ -125,12 +185,23 @@ const Form = ({ questions, user }) => {
           <button disabled={!currentQuestionIndex} onClick={handlePrevious}>
             Previous
           </button>
-          <button disabled={currentQuestion.required} onClick={handleNext}>
+          <button disabled={currentQuestion?.required} onClick={handleSkip}>
             Skip
           </button>
-          <button onClick={handleNext}>Next</button>
+          <button
+            disabled={!selectedAnswers[currentQuestionIndex]}
+            onClick={handleNext}
+          >
+            Next
+          </button>
         </div>
-        <div id="progress-area">hi</div>
+        <div id="progress-area">
+          <ProgressBar
+            completed={Math.floor(
+              (Object.keys(answers).length / questionsLength) * 100
+            )}
+          />
+        </div>
       </div>
     </FormWrapper>
   );

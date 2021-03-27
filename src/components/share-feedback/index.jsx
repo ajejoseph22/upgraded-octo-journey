@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, createContext } from "react";
 import { getUsers } from "../../services/users";
 import Spinner from "../spinner";
 import ErrorPage from "../error-page";
@@ -7,6 +7,7 @@ import Form from "./form";
 import { getQuestions } from "../../services/questions";
 import HomePage from "./homepage";
 import { errorObj } from "../../util/constants";
+import FeedBackCompleted from "./feedback-completed";
 
 const ShareFeedBackPageWrapper = styled.div`
   width: 600px;
@@ -19,12 +20,23 @@ const ShareFeedBackPageWrapper = styled.div`
   }
 `;
 
+export const ShareFeedBackContext = createContext(null);
+
 const ShareFeedBackPage = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState();
   const [selectedUser, setSelectedUser] = useState();
   const [questions, setQuestions] = useState();
+  const [isFinished, setIsFinished] = useState(false);
+  const [usersFilledFor, setUsersFilledFor] = useState({});
+
+  const addUserFilledFor = (id) => {
+    setUsersFilledFor((prevState) => ({
+      ...prevState,
+      [id]: true,
+    }));
+  };
 
   const resetLoadingAndErrorState = () => {
     setError(null);
@@ -64,6 +76,7 @@ const ShareFeedBackPage = () => {
   }, [fetchUsersAndSetState]);
 
   const handleClickFill = async (user) => {
+    setIsFinished(false);
     // check if questions are loaded
     if (!questions) {
       await fetchQuestionsAndSetState();
@@ -88,13 +101,25 @@ const ShareFeedBackPage = () => {
     );
 
   return (
-    <ShareFeedBackPageWrapper>
-      {selectedUser ? (
-        <Form questions={questions} user={selectedUser} />
-      ) : (
-        <HomePage users={users} handleClickFill={handleClickFill} />
-      )}
-    </ShareFeedBackPageWrapper>
+    <ShareFeedBackContext.Provider
+      value={{
+        usersFilledFor,
+        addUserFilledFor,
+        users,
+        handleClickFill,
+        setIsFinished,
+      }}
+    >
+      <ShareFeedBackPageWrapper>
+        {isFinished ? (
+          <FeedBackCompleted />
+        ) : selectedUser ? (
+          <Form questions={questions} user={selectedUser} />
+        ) : (
+          <HomePage users={users} handleClickFill={handleClickFill} />
+        )}
+      </ShareFeedBackPageWrapper>
+    </ShareFeedBackContext.Provider>
   );
 };
 export default ShareFeedBackPage;

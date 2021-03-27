@@ -10,9 +10,9 @@ const ScaleWrapper = styled.div`
   }
 `;
 
-const Scale = ({ question }) => (
+const Scale = ({ handleSetAnswer, answer }) => (
   <ScaleWrapper>
-    <Rating />
+    <Rating rating={answer} onSelect={handleSetAnswer} />
   </ScaleWrapper>
 );
 

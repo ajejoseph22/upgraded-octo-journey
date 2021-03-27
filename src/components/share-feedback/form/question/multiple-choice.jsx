@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import classNames from "classnames";
 
 const MultipleChoiceWrapper = styled.div`
   .question {
@@ -7,15 +8,33 @@ const MultipleChoiceWrapper = styled.div`
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
+
+    &:hover,
+    &.selected {
+      background: #ab61e5;
+      color: #fff;
+    }
   }
 `;
 
-const MultipleChoice = ({ question }) => (
+const MultipleChoice = ({ question, handleSetAnswer, answer }) => (
   <MultipleChoiceWrapper>
-    {question.options.map((option) => (
-      //todo: onClick something with the value
-      <div className="question">{option.label}</div>
-    ))}
+    {question.options.map((option) => {
+      const classes = classNames({
+        question: true,
+        selected: option.value === answer,
+      });
+
+      return (
+        <div
+          key={option.value}
+          onClick={() => handleSetAnswer(option.value)}
+          className={classes}
+        >
+          {option.label}
+        </div>
+      );
+    })}
   </MultipleChoiceWrapper>
 );
 

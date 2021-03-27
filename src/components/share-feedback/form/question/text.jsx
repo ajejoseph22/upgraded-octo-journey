@@ -9,9 +9,15 @@ const TextWrapper = styled.div`
   }
 `;
 
-const Text = ({ question }) => (
+const Text = ({ handleSetAnswer, answer }) => (
   <TextWrapper>
-    <textarea id="text" placeholder="Say something" rows="10" />
+    <textarea
+      onChange={({ target }) => handleSetAnswer(target.value)}
+      value={answer || ""}
+      id="text"
+      placeholder="Say something"
+      rows="10"
+    />
   </TextWrapper>
 );
 
